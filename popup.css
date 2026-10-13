@@ -1,0 +1,71 @@
+:root {
+  color: #eef3f8;
+  background: #0f1419;
+  font: 14px/1.45 "IBM Plex Sans", "Segoe UI", sans-serif;
+}
+
+body {
+  margin: 0;
+  width: 320px;
+}
+
+main {
+  padding: 16px;
+  display: grid;
+  gap: 10px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 18px;
+  font-family: Georgia, serif;
+}
+
+p {
+  margin: 0;
+  color: #9aabbc;
+}
+
+label {
+  display: grid;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+input {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #1a222c;
+  color: #eef3f8;
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+button {
+  margin-top: 8px;
+  width: 100%;
+  border: 0;
+  border-radius: 999px;
+  padding: 10px 12px;
+  background: linear-gradient(135deg, #ff5a36, #ff8a4c);
+  color: #111;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button.ghost {
+  background: transparent;
+  color: #eef3f8;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.hidden {
+  display: none;
+}
+
+.error {
+  color: #ffd0d7;
+  background: rgba(255, 107, 129, 0.12);
+  border: 1px solid rgba(255, 107, 129, 0.35);
+  border-radius: 8px;
+  padding: 8px 10px;
+}

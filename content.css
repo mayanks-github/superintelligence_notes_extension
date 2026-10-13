@@ -1,0 +1,37 @@
+#superintelligence-notes-save-btn {
+  position: fixed;
+  right: 20px;
+  bottom: 24px;
+  z-index: 2147483646;
+  border: 0;
+  border-radius: 999px;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #ff5a36, #ff8a4c);
+  color: #111;
+  font: 650 14px/1.2 "IBM Plex Sans", "Segoe UI", sans-serif;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+}
+
+#superintelligence-notes-toast {
+  position: fixed;
+  right: 20px;
+  bottom: 78px;
+  z-index: 2147483647;
+  display: none;
+  max-width: 320px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  font: 500 13px/1.4 "IBM Plex Sans", "Segoe UI", sans-serif;
+  color: #fff;
+  background: #1a222c;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+#superintelligence-notes-toast.ok {
+  border: 1px solid rgba(61, 214, 198, 0.5);
+}
+
+#superintelligence-notes-toast.error {
+  border: 1px solid rgba(255, 107, 129, 0.55);
+}

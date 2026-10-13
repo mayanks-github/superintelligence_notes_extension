@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Superintelligence Notes</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <main>
+      <h1>Superintelligence Notes</h1>
+      <p id="status">Sign in with Google to save summaries into your Docs.</p>
+
+      <form id="login-form">
+        <label>
+          API URL
+          <input id="apiUrl" type="url" value="http://localhost:3000/api/v1" />
+        </label>
+        <button id="google-signin" type="submit">Continue with Google</button>
+      </form>
+
+      <div id="signed-in" class="hidden">
+        <p id="user-line"></p>
+        <p>New summaries are created as Google Docs in a Superintelligence Notes folder.</p>
+        <button id="logout" type="button" class="ghost">Sign out</button>
+      </div>
+
+      <p id="error" class="error hidden"></p>
+    </main>
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>

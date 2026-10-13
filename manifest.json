@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "Superintelligence Notes",
+  "description": "Save Gemini YouTube summaries into your Google Docs.",
+  "version": "0.1.0",
+  "action": {
+    "default_title": "Superintelligence Notes",
+    "default_popup": "popup.html"
+  },
+  "permissions": ["storage", "activeTab", "identity"],
+  "host_permissions": [
+    "https://www.youtube.com/*",
+    "http://localhost:3000/*",
+    "http://127.0.0.1:3000/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.youtube.com/*"],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}
