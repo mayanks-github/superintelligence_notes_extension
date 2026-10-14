@@ -14,25 +14,38 @@ function getVideoTitle() {
   )
 }
 
+function cleanCapturedText(text) {
+  return text
+    .replace(/\u00a0/g, ' ')
+    .replace(/[ \t]+\n/g, '\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim()
+}
+
+function looksLikePageChrome(text) {
+  return (
+    /Show less|Show transcript|Subscribe|How this was made|Auto-dubbed/i.test(text) &&
+    !/key (points|takeaways)|gemini|tl;dr|overview/i.test(text.slice(0, 400))
+  )
+}
+
 function extractGeminiSummary() {
-  const selectors = [
-    '#panels ytd-engagement-panel-section-list-renderer[target-id*="engagement-panel"]',
-    'ytd-engagement-panel-section-list-renderer',
+  const panelSelectors = [
+    'ytd-engagement-panel-section-list-renderer[target-id*="summary"]',
+    'ytd-engagement-panel-section-list-renderer[target-id*="ai"]',
+    'ytd-engagement-panel-section-list-renderer[visibility="ENGAGEMENT_PANEL_VISIBILITY_EXPANDED"]',
     '[aria-label*="Gemini" i]',
     '[aria-label*="summary" i]',
-    '#chat-messages',
-    'yt-formatted-string',
+    '#panels ytd-engagement-panel-section-list-renderer',
   ]
 
   const candidates = []
 
-  for (const selector of selectors) {
+  for (const selector of panelSelectors) {
     document.querySelectorAll(selector).forEach((node) => {
-      const text = node.innerText?.trim()
+      const text = cleanCapturedText(node.innerText || '')
       if (!text || text.length < 80) return
-      if (!/summary|key point|takeaway|gemini|chapter|overview/i.test(text) && text.length < 160) {
-        return
-      }
+      if (looksLikePageChrome(text)) return
       candidates.push(text)
     })
   }
@@ -57,7 +70,7 @@ function showToast(message, isError = false) {
   }, 3200)
 }
 
-async function saveSummary() {
+async function saveSummary(button) {
   const videoId = getVideoId()
   if (!videoId) {
     showToast('Open a YouTube watch page first.', true)
@@ -66,31 +79,40 @@ async function saveSummary() {
 
   const summaryText = extractGeminiSummary()
   if (!summaryText) {
-    showToast('Could not find Gemini summary text. Open the summary panel, then try again.', true)
+    showToast('Could not find Gemini summary text. Open the AI/Gemini summary panel, then try again.', true)
     return
   }
 
-  const payload = {
-    video_id: videoId,
-    video_title: getVideoTitle(),
-    video_url: `https://www.youtube.com/watch?v=${videoId}`,
-    summary_text: summaryText,
-    source: 'gemini-youtube',
-    captured_at: new Date().toISOString(),
-    sections: [],
+  button.disabled = true
+  button.textContent = 'Saving…'
+  showToast('Saving to Google Docs…')
+
+  try {
+    const payload = {
+      video_id: videoId,
+      video_title: getVideoTitle(),
+      video_url: `https://www.youtube.com/watch?v=${videoId}`,
+      summary_text: summaryText,
+      source: 'gemini-youtube',
+      captured_at: new Date().toISOString(),
+      sections: [],
+    }
+
+    const response = await chrome.runtime.sendMessage({
+      type: 'SAVE_NOTE',
+      payload,
+    })
+
+    if (!response?.ok) {
+      showToast(response?.error || 'Failed to save note.', true)
+      return
+    }
+
+    showToast('Saved to your Google Docs')
+  } finally {
+    button.disabled = false
+    button.textContent = 'Save to Google Docs'
   }
-
-  const response = await chrome.runtime.sendMessage({
-    type: 'SAVE_NOTE',
-    payload,
-  })
-
-  if (!response?.ok) {
-    showToast(response?.error || 'Failed to save note.', true)
-    return
-  }
-
-  showToast('Saved to your Google Docs')
 }
 
 function ensureButton() {
@@ -102,7 +124,11 @@ function ensureButton() {
   button.type = 'button'
   button.textContent = 'Save to Google Docs'
   button.addEventListener('click', () => {
-    saveSummary().catch((error) => showToast(error.message, true))
+    saveSummary(button).catch((error) => {
+      button.disabled = false
+      button.textContent = 'Save to Google Docs'
+      showToast(error.message, true)
+    })
   })
   document.body.appendChild(button)
 }
