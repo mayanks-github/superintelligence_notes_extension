@@ -1,7 +1,7 @@
 :root {
   color: #eef3f8;
   background: #0f1419;
-  font: 14px/1.45 "IBM Plex Sans", "Segoe UI", sans-serif;
+  font: 14px/1.45 "Google Sans", "IBM Plex Sans", "Segoe UI", sans-serif;
 }
 
 body {
@@ -50,12 +50,169 @@ button {
   color: #111;
   font-weight: 700;
   cursor: pointer;
+  transition:
+    transform 160ms ease,
+    box-shadow 200ms ease,
+    filter 200ms ease,
+    background 200ms ease;
+}
+
+button:active:not(:disabled) {
+  transform: scale(0.97);
 }
 
 button.ghost {
   background: transparent;
   color: #eef3f8;
   border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+button.secondary {
+  background: linear-gradient(135deg, #1a2744, #2a1844);
+  color: #eef3f8;
+  border: 1px solid rgba(138, 180, 248, 0.35);
+  box-shadow: 0 0 0 1px rgba(155, 114, 203, 0.18);
+}
+
+button.secondary:hover {
+  filter: brightness(1.08);
+}
+
+button.secondary:active {
+  transform: scale(0.97);
+}
+
+/* Google sign-in */
+button.google-btn {
+  --g-blue: #4285f4;
+  --g-green: #34a853;
+  --g-yellow: #fbbc05;
+  --g-red: #ea4335;
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #ffffff;
+  color: #1f1f1f;
+  font: 600 14px/1 "Google Sans", Roboto, "Segoe UI", sans-serif;
+  letter-spacing: 0.01em;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.18),
+    0 0 0 1px rgba(66, 133, 244, 0.08);
+}
+
+button.google-btn .google-btn-glow {
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(
+    120deg,
+    var(--g-blue),
+    var(--g-green),
+    var(--g-yellow),
+    var(--g-red),
+    var(--g-blue)
+  );
+  background-size: 300% 300%;
+  opacity: 0;
+  z-index: 0;
+  animation: google-border-shift 4s linear infinite;
+  transition: opacity 220ms ease;
+  pointer-events: none;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  padding: 1.5px;
+}
+
+button.google-btn .google-g,
+button.google-btn .google-btn-label {
+  position: relative;
+  z-index: 1;
+}
+
+button.google-btn .google-g {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+}
+
+button.google-btn:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 6px 18px rgba(66, 133, 244, 0.22),
+    0 0 0 1px rgba(66, 133, 244, 0.2);
+  filter: brightness(1.02);
+}
+
+button.google-btn:hover .google-btn-glow {
+  opacity: 0.95;
+}
+
+button.google-btn:active,
+button.google-btn.is-pressing {
+  transform: translateY(1px) scale(0.96);
+  box-shadow:
+    0 0 0 1px rgba(66, 133, 244, 0.45),
+    0 0 0 6px rgba(66, 133, 244, 0.14);
+  filter: brightness(0.98);
+}
+
+button.google-btn:active .google-btn-glow,
+button.google-btn.is-pressing .google-btn-glow {
+  opacity: 1;
+}
+
+button.google-btn.is-loading {
+  cursor: wait;
+  color: #3c4043;
+  background: #f8f9fa;
+  animation: google-loading-pulse 900ms ease-in-out infinite;
+}
+
+button.google-btn.is-loading .google-btn-glow {
+  opacity: 1;
+}
+
+button.google-btn:disabled {
+  opacity: 0.85;
+  cursor: wait;
+}
+
+@keyframes google-border-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes google-loading-pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 1px rgba(66, 133, 244, 0.25),
+      0 0 10px rgba(66, 133, 244, 0.12);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px rgba(52, 168, 83, 0.4),
+      0 0 18px rgba(234, 67, 53, 0.18);
+  }
 }
 
 .hidden {

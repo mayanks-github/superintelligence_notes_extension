@@ -1,28 +1,255 @@
-#superintelligence-notes-save-btn {
-  position: fixed;
-  right: 20px;
-  bottom: 24px;
-  z-index: 2147483646;
+.sin-prompt-inline-host {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  flex-wrap: nowrap !important;
+  gap: 8px !important;
+  box-sizing: border-box !important;
+}
+
+.sin-prompt-inline-host textarea,
+.sin-prompt-inline-host input {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  width: auto !important;
+}
+
+.sin-save-mount {
+  display: inline-flex !important;
+  align-items: center !important;
+  align-self: center !important;
+  flex: 0 0 auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  max-width: none !important;
+  box-sizing: border-box;
+  pointer-events: auto !important;
+  position: relative;
+  z-index: 50;
+}
+
+#superintelligence-notes-save-btn.sin-gemini-btn {
+  --sin-blue: #4285f4;
+  --sin-violet: #9b72cb;
+  --sin-rose: #d96570;
+  --sin-cyan: #24c1e0;
+
+  position: relative;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px;
+  isolation: isolate;
+  overflow: hidden;
   border: 0;
   border-radius: 999px;
-  padding: 12px 16px;
-  background: linear-gradient(135deg, #ff5a36, #ff8a4c);
-  color: #111;
-  font: 650 14px/1.2 "IBM Plex Sans", "Segoe UI", sans-serif;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-  cursor: pointer;
+  height: 32px !important;
+  min-height: 32px !important;
+  max-height: 32px !important;
+  padding: 0 10px !important;
+  margin: 0 !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  background: linear-gradient(135deg, #1a2744 0%, #2a1844 52%, #3a1a30 100%) !important;
+  font: 600 11.5px/1 "Google Sans", Roboto, "Segoe UI", sans-serif !important;
+  letter-spacing: 0.01em;
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  white-space: nowrap !important;
+  z-index: 51;
+  box-shadow:
+    0 0 0 1px rgba(155, 114, 203, 0.45),
+    0 4px 14px rgba(66, 133, 244, 0.28);
+  transition:
+    transform 180ms ease,
+    box-shadow 220ms ease,
+    filter 220ms ease;
+}
+
+#superintelligence-notes-save-btn.sin-gemini-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: linear-gradient(
+    120deg,
+    var(--sin-blue),
+    var(--sin-violet),
+    var(--sin-rose),
+    var(--sin-cyan),
+    var(--sin-blue)
+  );
+  background-size: 300% 300%;
+  animation: sin-gemini-border 4.5s linear infinite;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 0;
+}
+
+#superintelligence-notes-save-btn.sin-gemini-btn::after {
+  content: "";
+  position: absolute;
+  inset: -40% -60%;
+  background: linear-gradient(
+    105deg,
+    transparent 35%,
+    color-mix(in srgb, #fff 55%, transparent) 50%,
+    transparent 65%
+  );
+  transform: translateX(-40%) rotate(8deg);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+#superintelligence-notes-save-btn.sin-gemini-btn .sin-sparkle,
+#superintelligence-notes-save-btn.sin-gemini-btn .sin-label {
+  position: relative;
+  z-index: 2;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+#superintelligence-notes-save-btn.sin-gemini-btn .sin-sparkle {
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+  color: #8ab4f8 !important;
+  -webkit-text-fill-color: #8ab4f8 !important;
+  filter: drop-shadow(0 0 6px rgba(66, 133, 244, 0.85));
+  animation: sin-sparkle-pulse 2.4s ease-in-out infinite;
+}
+
+#superintelligence-notes-save-btn.sin-gemini-btn:hover {
+  transform: translateY(-1px) scale(1.02);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--sin-blue) 45%, transparent),
+    0 10px 28px color-mix(in srgb, var(--sin-violet) 35%, transparent),
+    0 0 24px color-mix(in srgb, var(--sin-cyan) 25%, transparent);
+  filter: saturate(1.08);
+}
+
+#superintelligence-notes-save-btn.sin-gemini-btn:hover::after {
+  opacity: 1;
+  animation: sin-shimmer 900ms ease;
+}
+
+#superintelligence-notes-save-btn.sin-gemini-btn:active,
+#superintelligence-notes-save-btn.sin-gemini-btn.is-pressing {
+  transform: translateY(1px) scale(0.94);
+  box-shadow:
+    0 0 0 1px rgba(138, 180, 248, 0.7),
+    0 0 0 6px rgba(66, 133, 244, 0.18),
+    0 2px 8px rgba(155, 114, 203, 0.35);
+  filter: brightness(1.12) saturate(1.2);
+}
+
+#superintelligence-notes-save-btn.sin-gemini-btn.is-pressing::after,
+#superintelligence-notes-save-btn.sin-gemini-btn.is-saving::after {
+  opacity: 1;
+  animation: sin-shimmer 700ms ease infinite;
+}
+
+#superintelligence-notes-save-btn.sin-gemini-btn.is-saving {
+  cursor: wait;
+  animation: sin-saving-pulse 900ms ease-in-out infinite;
+}
+
+#superintelligence-notes-save-btn.sin-gemini-btn.is-success {
+  background: linear-gradient(135deg, #0f3d2e 0%, #14532d 55%, #166534 100%) !important;
+  box-shadow:
+    0 0 0 1px rgba(74, 222, 128, 0.55),
+    0 0 22px rgba(34, 197, 94, 0.35);
+}
+
+#superintelligence-notes-save-btn.sin-gemini-btn.is-error {
+  background: linear-gradient(135deg, #4a1520 0%, #7f1d1d 55%, #991b1b 100%) !important;
+  box-shadow:
+    0 0 0 1px rgba(252, 165, 165, 0.55),
+    0 0 22px rgba(239, 68, 68, 0.35);
+  animation: sin-error-shake 420ms ease;
+}
+
+#superintelligence-notes-save-btn.sin-gemini-btn:disabled {
+  opacity: 0.9;
+  cursor: wait;
+}
+
+@keyframes sin-gemini-border {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes sin-sparkle-pulse {
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(1.12) rotate(8deg);
+    opacity: 1;
+  }
+}
+
+@keyframes sin-shimmer {
+  from {
+    transform: translateX(-45%) rotate(8deg);
+  }
+  to {
+    transform: translateX(45%) rotate(8deg);
+  }
+}
+
+@keyframes sin-saving-pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 1px rgba(138, 180, 248, 0.45),
+      0 0 10px rgba(66, 133, 244, 0.25);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px rgba(155, 114, 203, 0.7),
+      0 0 22px rgba(155, 114, 203, 0.45);
+  }
+}
+
+@keyframes sin-error-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-3px);
+  }
+  75% {
+    transform: translateX(3px);
+  }
 }
 
 #superintelligence-notes-toast {
   position: fixed;
   right: 20px;
-  bottom: 78px;
+  bottom: 24px;
   z-index: 2147483647;
   display: none;
   max-width: 320px;
   padding: 12px 14px;
   border-radius: 12px;
-  font: 500 13px/1.4 "IBM Plex Sans", "Segoe UI", sans-serif;
+  font: 500 13px/1.4 "Google Sans", Roboto, "Segoe UI", sans-serif;
   color: #fff;
   background: #1a222c;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
